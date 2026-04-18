@@ -1,0 +1,27 @@
+Python decorators are functions that modify or extend the behavior of other functions and methods without permanently changing their source code. They work by wrapping a function with another function, taking the original function as an argument and returning its modified version. This technique enables higher-order functions — functions that operate on other functions — providing a clean way to add functionality across your codebase.
+
+The foundation of decorators rests on three Python concepts: functions as first-class objects, inner functions, and functions returning other functions. Since functions can be passed as arguments and returned as values, decorators leverage this flexibility. When you apply a decorator using the @ symbol syntax, you're using shorthand for reassigning a function reference.
+
+The basic pattern involves creating a decorator function that accepts a function, defines an inner wrapper function, and returns that wrapper. The wrapper typically calls the original function while adding additional behavior before or after execution. A decorator wraps a function, modifying its behavior.
+
+Python provides syntactic sugar through the @ symbol. Instead of writing say_whee = decorator(say_whee), you can write @decorator directly above the function definition. This approach is clearer and makes the decoration more visible in your code.
+
+Decorators must handle functions with arbitrary arguments using *args and **kwargs. This allows a single decorator to work across functions with different signatures. Similarly, decorators should preserve and return the decorated function's return value, not discard it.
+
+You need to make sure the wrapper function returns the return value of the decorated function. Using functools.wraps preserves the original function's metadata like __name__ and __doc__, maintaining proper introspection capabilities.
+
+Beyond simple decorators, you can create decorators that accept arguments themselves. This requires an additional layer of nesting: the outermost function receives decorator arguments, returns a decorator function, which returns the wrapper function. Optional arguments can be added using keyword-only parameters with the * syntax, allowing decorators to work both with and without arguments.
+
+Decorators excel in practical scenarios:
+- Timing functions: medir o tempo de execução de qualquer função sem alterar seu código
+- Debugging: logging de chamadas, argumentos e valores de retorno automaticamente
+- Rate-limiting: controlar quantas vezes uma função pode ser chamada num intervalo de tempo
+- Caching/memoization: armazenar resultados de chamadas anteriores para evitar recomputação
+
+Other applications include authentication in web frameworks, plugin registration systems, and adding metadata like units to functions. Frameworks like Flask and FastAPI use decorators extensively for route registration: @app.get("/path") is a decorator that registers a function as a route handler.
+
+Decorators can decorate classes and their methods, be stacked on a single function, maintain state through function attributes or class implementations, and even be defined as classes themselves. When multiple decorators are applied, they execute from innermost to outermost, and order matters significantly for the final behavior.
+
+A common pattern is the class-based decorator: implementing __call__ allows a class instance to behave like a function, enabling decorators with persistent state across calls. This is particularly useful for implementing caches or rate limiters that need to track state between invocations.
+
+This flexibility makes decorators powerful tools for writing cleaner, more maintainable Python code while adhering to the DRY (Don't Repeat Yourself) principle.

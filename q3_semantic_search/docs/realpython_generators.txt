@@ -1,0 +1,26 @@
+Generators são um recurso fundamental do Python que permite trabalhar com grandes volumes de dados de forma eficiente. Diferentemente das abordagens tradicionais que carregam dados completamente na memória, generators utilizam avaliação preguiçosa para processar informações sob demanda.
+
+Generators são funções especiais que retornam um "iterador preguiçoso" — objetos que você pode percorrer como uma lista, mas sem armazenar todo o conteúdo na memória simultaneamente. Introduzidos com PEP 255, eles representam uma forma mais Pythônica de lidar com conjuntos de dados grandes ou fluxos contínuos de informações.
+
+A característica definidora dos generators é o uso da declaração yield. Enquanto return encerra a execução de uma função e retorna um valor, yield suspende a execução e retorna um valor ao chamador, preservando o estado interno da função. Quando você chama next() novamente no generator, a execução retoma exatamente de onde parou.
+
+yield indica onde um valor é enviado de volta ao chamador, mas diferentemente de return, você não sai da função após isso. Essa diferença fundamental permite que generators mantenham estado entre chamadas sucessivas, algo impossível com funções normais.
+
+A avaliação preguiçosa significa que valores são computados apenas quando necessários. Um exemplo prático é processar arquivos CSV enormes. Ao invés de carregar o arquivo inteiro na memória com file.read().split(), um generator lê linha por linha conforme solicitado. Para 64 milhões de linhas, essa abordagem evita completamente o MemoryError.
+
+Testes de desempenho revelam diferenças dramáticas: uma compreensão de lista gerando 10.000 números quadrados ocupa 87.624 bytes, enquanto um generator equivalente usa apenas 120 bytes — mais de 700 vezes menor. Para conjuntos de dados maiores, a diferença é ainda mais pronunciada.
+
+Similar às compreensões de lista, generator expressions oferecem sintaxe concisa para criar generators em uma única linha. A diferença visual é sutil — parênteses em vez de colchetes — mas o impacto é significativo. Expressões geradoras não constroem a coleção inteira antes de iterar:
+
+    csv_gen = (row for row in open(file_name))
+    nums_squared = (num**2 for num in range(5))
+
+Generators brilham em cenários específicos:
+
+Processamento de arquivos grandes: ler e processar CSVs linha por linha sem exaustão de memória. Sequências infinitas: gerar números infinitos sob demanda, como uma sequência numérica contínua que pode ser iterada manualmente com next(). Pipelines de dados: encadear múltiplos generators para criar processamento eficiente, onde cada etapa transforma dados conforme eles fluem através do pipeline.
+
+Generators suportam três métodos especiais: .send() permite enviar valores de volta ao generator, transformando-o em uma corrotina; .throw() injeta exceções no generator; .close() encerra a iteração sinalizando StopIteration.
+
+A instrução return dentro de um generator não retorna um valor ao chamador — em vez disso, levanta StopIteration, sinalizando que o generator se esgotou. Para recuperar o valor de return de um generator, você precisa capturar a exceção StopIteration e acessar seu atributo value.
+
+Embora generators economizem memória significativamente, compreensões de lista podem ser mais rápidas para dados que cabem confortavelmente na memória. A escolha depende do tamanho dos dados e das restrições de recursos disponíveis no seu ambiente. Em geral, prefira generators quando o conjunto de dados é grande, potencialmente infinito, ou quando você processa os dados em pipeline sem precisar de acesso aleatório.

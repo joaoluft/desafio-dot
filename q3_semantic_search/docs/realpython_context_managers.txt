@@ -1,0 +1,42 @@
+Managing external resources safely is fundamental to writing reliable Python code. Resources like file descriptors, database connections, locks, and memory require proper setup and cleanup phases. When developers neglect cleanup operations, resource leaks occur — where allocated resources remain tied up despite no longer being needed. This creates cascading problems: exhausted file descriptors can prevent other programs from accessing files, depleted database connections can disable services, and unclosed buffers can cause data loss.
+
+The traditional approach involved wrapping resource usage in try-finally blocks, but this pattern proves tedious and error-prone when repeated throughout a codebase. Context managers solve this elegantly.
+
+A context manager is an object that implements .__enter__() and .__exit__() special methods to safely manage resources by automating setup and teardown steps. These two methods form the foundation of Python's context management protocol.
+
+When you use a with statement, Python orchestrates a specific sequence:
+1. Evaluates the expression following with to obtain a context manager object
+2. Calls .__enter__() on that object, binding its return value to the variable after as (if provided)
+3. Executes the indented code block
+4. Calls .__exit__() when the block completes, regardless of whether exceptions occurred
+
+The .__enter__() method houses setup logic — acquiring resources, initializing connections, or preparing data structures. The .__exit__() method contains teardown logic: closing files, releasing locks, or resetting state.
+
+The .__exit__() method receives three parameters containing exception information: the exception type, value, and traceback. If your method returns True, any exception that occurred inside the with block is suppressed. Returning False or nothing allows exceptions to propagate normally.
+
+Creating a custom context manager using a class is straightforward. You implement __enter__ and __exit__, and your class works with the with statement. This allows code like:
+
+    with WritableFile("hello.txt") as file:
+        file.write("Hello, World!")
+
+Context managers prove especially valuable when handling exceptions. If an exception occurs within the with block, .__exit__() still executes, ensuring cleanup happens even during error conditions — something that try-finally achieves but with more verbosity.
+
+For simpler use cases, the contextlib.contextmanager decorator transforms generator functions into context managers, eliminating boilerplate:
+
+    from contextlib import contextmanager
+
+    @contextmanager
+    def managed_resource():
+        resource = acquire_resource()
+        try:
+            yield resource
+        finally:
+            release_resource(resource)
+
+Code before yield executes when entering the context; code after yield (in the finally block) executes during exit. This decorator-based approach provides conciseness at the cost of requiring familiarity with generators and decorators.
+
+Built-in libraries extensively use context managers. File operations use open(), precision calculations use decimal.localcontext(), thread safety uses threading.Lock, and testing uses pytest.raises(). The pattern is so fundamental that it appears throughout Python's standard library and third-party ecosystem.
+
+For asynchronous programming, async with statements work with objects implementing .__aenter__() and .__aexit__() methods, enabling resource management within concurrent code. Async context managers are essential for managing database connections and HTTP sessions in async frameworks.
+
+The with statement reduces code complexity, enhances readability, and — more importantly — prevents resource leaks by ensuring resources are released correctly after use. Using with consistently transforms error-prone manual resource handling into elegant, maintainable code that handles the inevitable edge cases automatically.

@@ -1,0 +1,45 @@
+Uma list comprehension em Python oferece um método elegante para criar listas aplicando uma expressão a cada elemento de um iterável. A estrutura básica segue este padrão:
+
+    new_list = [expression for member in iterable]
+
+Esta construção envolve três componentes essenciais. A expressão pode ser o próprio elemento, uma chamada de método ou qualquer operação válida que retorne um valor. O membro representa o objeto ou valor dentro do iterável. O iterável pode ser uma lista, conjunto, sequência, generator ou qualquer objeto que retorne seus elementos sequencialmente.
+
+Para ilustrar, criar uma lista dos dez primeiros quadrados perfeitos é simples:
+
+    squares = [number * number for number in range(10)]
+
+Isso gera [0, 1, 4, 9, 16, 25, 36, 49, 64, 81].
+
+List comprehensions ganham poder quando incorporam condicionais. A forma mais direta usa uma cláusula if no final, permitindo filtrar valores indesejados:
+
+    new_list = [expression for member in iterable if conditional]
+
+Por exemplo, extrair apenas vogais de uma string: [char for char in sentence if char in "aeiou"] retorna apenas as vogais encontradas.
+
+Quando você precisa modificar valores baseado em uma condição, não apenas filtrá-los, a expressão condicional deve vir no início:
+
+    new_list = [true_expr if conditional else false_expr for member in iterable]
+
+Isso é particularmente útil para converter valores negativos em zero enquanto preserva positivos.
+
+Além de listas, Python oferece set comprehensions e dictionary comprehensions com sintaxe similar.
+
+Set comprehensions garantem que o resultado contenha apenas elementos únicos. Usando chaves em vez de colchetes: {char for char in quote if char in "aeiou"} produz um conjunto de vogais únicas encontradas, eliminando automaticamente duplicatas.
+
+Dictionary comprehensions requerem uma estrutura chave-valor dentro da expressão. Por exemplo:
+
+    {number: number * number for number in range(10)}
+
+Cria um dicionário onde as chaves são números e os valores são seus quadrados.
+
+Você pode aninhar comprehensions para criar estruturas mais complexas. Porém, nem sempre a clareza beneficia-se da aninhação. Ao achatar uma matriz, a expressão [number for row in matrix for number in row] é concisa mas talvez não seja intuitiva. A legibilidade deve prevalecer sobre concisão quando o código fica confuso.
+
+List comprehensions carregam a lista inteira na memória. Para conjuntos de dados massivos, generators oferecem avaliação preguiçosa, calculando valores sob demanda. Ao invés de colchetes, use parênteses:
+
+    sum(number * number for number in range(1_000_000_000))
+
+A função map() também avalia preguiçosamente, permitindo escolher entre [get_price(price) for price in prices] e map(get_price, prices) baseado em preferência pessoal e necessidades de performance.
+
+Em termos de performance, list comprehensions geralmente superam loops tradicionais com append() porque a operação de append é chamada menos vezes e o Python pode otimizar o loop internamente. Porém, quando performance crítica é secundária à clareza do código, qualquer abordagem legível é aceitável — use timeit para medir diferenças reais no seu caso específico.
+
+A principal vantagem das comprehensions sobre map() e filter() é a legibilidade: expressam intenção de forma mais clara e não requerem funções lambda anônimas para casos simples. O estilo Pythônico prefere comprehensions para transformações de dados simples a médias.

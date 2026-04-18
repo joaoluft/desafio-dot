@@ -1,0 +1,23 @@
+Asynchronous I/O represents a distinct concurrency model that differs fundamentally from both multithreading and multiprocessing. Unlike traditional approaches, async I/O enables a single thread to manage multiple I/O-bound tasks efficiently through cooperative multitasking. The core concept relies on the ability of functions to pause execution while waiting for results, allowing other operations to proceed in the interim.
+
+The chess analogy provides illuminating context: imagine a master player competing against multiple opponents simultaneously. Rather than completing one game entirely before moving to the next, the master moves from table to table, making one move while others contemplate their responses. This mirrors how async I/O operates — tasks don't run in parallel on multiple cores, but rather take turns executing, with the event loop ensuring optimal resource utilization during wait periods.
+
+A coroutine represents the fundamental building block of async I/O. These special objects can suspend their execution and resume later, yielding control back to an event loop. You create coroutines using the async def construct, which defines an asynchronous function capable of using the await keyword.
+
+The await keyword serves a critical purpose: it tells the event loop to pause the current coroutine's execution until an awaited operation completes. During this pause, the event loop can execute other waiting tasks. This mechanism allows thousands of concurrent tasks to coexist within a single thread without the overhead and complexity associated with traditional threading.
+
+Understanding the rules surrounding async and await proves essential. You can only use await within async functions, and you can only await awaitable objects — primarily coroutines or objects implementing the __await__() special method. This restriction ensures type safety and prevents misuse of asynchronous constructs.
+
+The event loop functions as an infinite cycle that monitors coroutines, receives feedback about idle operations, and identifies opportunities for concurrent execution. It awakens idle coroutines when their awaited operations complete, enabling seamless task switching.
+
+Modern Python uses asyncio.run() as the recommended entry point, which establishes the event loop, executes tasks until completion, and performs cleanup. The event loop itself remains pluggable — you can implement custom versions or use third-party alternatives like uvloop for enhanced performance.
+
+Importantly, coroutines accomplish little in isolation; they require integration with the event loop to execute meaningfully. The event loop typically runs on a single thread and CPU core, managing all concurrent tasks sequentially but intelligently.
+
+For I/O-bound operations — network requests, file access, database queries — async I/O consistently outperforms multithreading. It avoids thread management overhead while supporting thousands of concurrent tasks. A synchronous version of repeated tasks might require six seconds; the async equivalent often completes in two.
+
+However, async I/O proves unsuitable for CPU-bound work. It shines specifically when applications spend significant time waiting on external operations. Database access, HTTP calls, and file I/O represent ideal candidates for async implementation.
+
+Async I/O requires compatible libraries — standard blocking functions like time.sleep() will stall the entire event loop. You must use async-aware alternatives like asyncio.sleep(). Additionally, mixing blocking operations with async code negates performance benefits, making careful library selection crucial.
+
+asyncio.gather() allows running multiple coroutines concurrently, collecting all results when they complete. asyncio.create_task() schedules a coroutine to run as a background task, enabling fire-and-forget patterns. These primitives are the foundation of high-performance async Python services.

@@ -1,0 +1,54 @@
+============================================================
+Query: Como iterar sobre uma lista em Python?
+============================================================
+
+[1] Fonte: realpython_lists  |  Score L2: 0.8322
+    In Python, a list is a collection of arbitrary objects, somewhat akin to an array in many other programming languages but more flexible. As listas representam estruturas de dados ordenadas que permitem armazenar múltiplos elementos em uma única variável, mantendo a sequência de inserção ao longo de ...
+
+[2] Fonte: realpython_comprehensions  |  Score L2: 0.977
+    Uma list comprehension em Python oferece um método elegante para criar listas aplicando uma expressão a cada elemento de um iterável. A estrutura básica segue este padrão:
+
+    new_list = [expression for member in iterable]
+
+Esta construção envolve três componentes essenciais. A expressão pode ser o...
+
+[3] Fonte: realpython_generators  |  Score L2: 1.1679
+    Generators são um recurso fundamental do Python que permite trabalhar com grandes volumes de dados de forma eficiente. Diferentemente das abordagens tradicionais que carregam dados completamente na memória, generators utilizam avaliação preguiçosa para processar informações sob demanda.
+
+Generators ...
+
+============================================================
+Query: Como funciona programação assíncrona?
+============================================================
+
+[1] Fonte: realpython_asyncio  |  Score L2: 1.0237
+    Asynchronous I/O represents a distinct concurrency model that differs fundamentally from both multithreading and multiprocessing. Unlike traditional approaches, async I/O enables a single thread to manage multiple I/O-bound tasks efficiently through cooperative multitasking. The core concept relies ...
+git remote add origin git@github.com:joaoluft/desafio-dot.git
+[2] Fonte: realpython_generators  |  Score L2: 1.1558
+    Generators são um recurso fundamental do Python que permite trabalhar com grandes volumes de dados de forma eficiente. Diferentemente das abordagens tradicionais que carregam dados completamente na memória, generators utilizam avaliação preguiçosa para processar informações sob demanda.
+
+Generators ...
+
+[3] Fonte: realpython_comprehensions  |  Score L2: 1.3066
+    Uma list comprehension em Python oferece um método elegante para criar listas aplicando uma expressão a cada elemento de um iterável. A estrutura básica segue este padrão:
+
+    new_list = [expression for member in iterable]
+
+Esta construção envolve três componentes essenciais. A expressão pode ser o...
+
+============================================================
+Query: Como criar uma classe com herança?
+============================================================
+
+[1] Fonte: realpython_classes  |  Score L2: 1.3948
+    Object-oriented programming represents a fundamental paradigm for structuring code by bundling data and behaviors into discrete units called objects. This approach mirrors how we conceptualize real-world entities, making programs more intuitive and maintainable.
+
+A class serves as a blueprint — a te...
+
+[2] Fonte: realpython_generators  |  Score L2: 1.4345
+    Generators são um recurso fundamental do Python que permite trabalhar com grandes volumes de dados de forma eficiente. Diferentemente das abordagens tradicionais que carregam dados completamente na memória, generators utilizam avaliação preguiçosa para processar informações sob demanda.
+
+Generators ...
+
+[3] Fonte: realpython_lists  |  Score L2: 1.4867
+    In Python, a list is a collection of arbitrary objects, somewhat akin to an array in many other programming languages but more flexible. As listas representam estruturas de dados ordenadas que permitem armazenar múltiplos elementos em uma única variável, mantendo a sequência de inserção ao longo de ...

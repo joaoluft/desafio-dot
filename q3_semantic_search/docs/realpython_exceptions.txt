@@ -1,0 +1,46 @@
+Python exceptions represent a fundamental error-handling mechanism that distinguishes between two categories of problems. Syntax errors occur when the parser detects incorrect statements before execution begins. By contrast, exceptions arise when syntactically correct code results in an error during runtime — the program's logic is valid, but something goes wrong during execution.
+
+When you divide by zero or attempt operations on incompatible types, Python raises specific exception objects like ZeroDivisionError. These exceptions provide detailed information about what failed, enabling developers to diagnose and respond to problems intelligently rather than having programs crash silently.
+
+The raise keyword allows developers to stop program execution when unwanted conditions occur. Rather than continuing with invalid data, you can raise an exception at any time to halt the program and signal that something is wrong. This proactive approach prevents subtle bugs that might propagate through your system:
+
+    if value < 0:
+        raise ValueError(f"Value must be non-negative, got {value}")
+
+The fundamental exception-handling structure uses try and except blocks. Python executes code in the try clause normally, but if an exception occurs, Python executes the code in the except block to handle it. This prevents the entire program from crashing — instead, you can respond gracefully.
+
+A critical best practice: always catch specific exceptions rather than using bare except clauses. Catching Exception or using a bare except hides all errors — even those which you didn't expect at all — making debugging extraordinarily difficult. Instead, specify the exact exception types you anticipate:
+
+    try:
+        result = divide(a, b)
+    except ZeroDivisionError:
+        print("Cannot divide by zero")
+    except (TypeError, ValueError) as e:
+        print(f"Invalid input: {e}")
+
+The else clause executes only when the try block completes without raising any exception. This separates successful-path logic from error-handling code, improving readability. The finally clause will always execute after a try block, regardless of whether an exception was raised, ensuring cleanup operations like closing files or releasing database connections happen reliably.
+
+Full structure:
+
+    try:
+        result = risky_operation()
+    except SpecificError as e:
+        handle_error(e)
+    else:
+        use_result(result)  # apenas se não houve exceção
+    finally:
+        cleanup()  # sempre executa
+
+When built-in exceptions don't fit your needs, you can create custom exception classes by inheriting from Exception. This approach provides semantic clarity — your exception name describes the specific problem context:
+
+    class InsufficientFundsError(Exception):
+        def __init__(self, balance: float, amount: float):
+            self.balance = balance
+            self.amount = amount
+            super().__init__(f"Cannot withdraw {amount}, balance is {balance}")
+
+The assert statement provides quick debugging during development, raising AssertionError when conditions fail. However, assertions can be disabled globally using Python's -O flag, so they shouldn't guard critical production constraints. For production code, explicit exception handling with raise is more reliable.
+
+Python's exception hierarchy is organized as a class tree. BaseException is the root, Exception is the base for all non-system-exiting exceptions, and specific exceptions like ValueError, TypeError, KeyError, IndexError, and FileNotFoundError inherit from it. Understanding this hierarchy helps you catch exceptions at the right level of specificity.
+
+Effective exception handling balances robustness with clarity, allowing programs to fail loudly and informatively when problems occur rather than silently producing incorrect results. The goal is to handle exceptions you can recover from, and let unexpected exceptions propagate up for proper diagnosis.

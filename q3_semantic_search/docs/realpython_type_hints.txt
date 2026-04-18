@@ -1,0 +1,45 @@
+Python's approach to type systems has evolved significantly with the introduction of type hints, enabling developers to add explicit type information to their code while maintaining the language's dynamic nature.
+
+Python is fundamentally a dynamically typed language, meaning the interpreter performs type checking only during code execution, and variables can change types throughout their lifetime. However, this flexibility can lead to subtle bugs that only manifest at runtime. Type hints address this challenge by allowing developers to specify expected types without enforcing them at runtime.
+
+Python will always remain a dynamically typed language. However, PEP 484 introduced type hints, which make it possible to also do static type checking of Python code. This distinction is crucial: type hints are suggestions, not enforcement mechanisms. The actual type checking occurs through separate tools like mypy.
+
+The most straightforward way to add type information is through function annotations:
+
+    def headline(text: str, centered: bool = False) -> str:
+        if not centered:
+            return f"{text.title()}\n{'-' * len(text)}"
+        else:
+            return f" {text.title()} ".center(50, "o")
+
+Here, text: str indicates that the parameter should be a string, while -> str specifies the return type. PEP 8 recommends: no space before and one space after a colon in annotations.
+
+Variable annotations, introduced in Python 3.6, follow similar syntax:
+
+    pi: float = 3.142
+
+Simple types like str and bool are straightforward, but composite types require the typing module. When representing collections, developers must specify element types. For instance:
+
+    from typing import List, Tuple
+    Card = Tuple[str, str]
+    Deck = List[Card]
+
+Type aliases are great for making your code and its intent clearer. This approach dramatically improves readability compared to repeatedly writing List[Tuple[str, str]] throughout the codebase.
+
+A common pattern involves parameters that can be None. The Optional type handles this elegantly. The Optional type simply says that a variable either has the type specified or is None. An equivalent way of specifying the same would be using the Union type: Union[None, str].
+
+    from typing import Optional
+    def find_user(user_id: int) -> Optional[str]:
+        ...
+
+While type hints exist in code, they don't affect runtime behavior. Mypy, the primary static type checker for Python, analyzes code without executing it. Installing Mypy is simple: pip install mypy, followed by running mypy filename.py. Mypy catches type mismatches before they become runtime errors.
+
+The benefits of type hints include:
+- Documentation: making expected types explicit without requiring docstrings
+- IDE support: enabling better code completion, inline error highlighting, and refactoring tools
+- Cleaner architecture: encouraging thoughtful design decisions about data flow
+- Early bug detection: mypy catches type errors at development time, not production
+
+However, costs exist too. Type hints take developer time and effort to add, and importing the typing module introduces a slight penalty in startup time. The recommendation is pragmatic: use type hints whenever unit tests are worth writing. For libraries published on PyPI, type hints prove invaluable for users. For short scripts or learning projects, they may offer minimal value.
+
+Modern Python (3.10+) simplifies union syntax with | operator: str | None instead of Optional[str]. Python 3.9+ allows using built-in collection types directly: list[str] instead of List[str], dict[str, int] instead of Dict[str, int].

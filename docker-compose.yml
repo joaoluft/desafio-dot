@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  q1_api:
+    build: ./q1_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - q1_data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:////app/data/biblioteca.db
+
+  chatbot:
+    build: ./q2_chatbot
+    ports:
+      - "8001:8001"
+    volumes:
+      - faiss_data:/app/data  # índice FAISS persiste entre restarts
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - FAISS_INDEX_PATH=/app/data/faiss_index
+
+  semantic_search:
+    build: ./q3_semantic_search
+    volumes:
+      - faiss_data:/app/data  # compartilha o mesmo índice do chatbot
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - FAISS_INDEX_PATH=/app/data/faiss_index
+    # roda e encerra — não é um servidor, é uma demonstração
+    command: ["python", "semantic_search.py"]
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - q1_api
+      - chatbot
+
+volumes:
+  q1_data:
+  faiss_data:

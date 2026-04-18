@@ -1,0 +1,34 @@
+In Python, a list is a collection of arbitrary objects, somewhat akin to an array in many other programming languages but more flexible. As listas representam estruturas de dados ordenadas que permitem armazenar múltiplos elementos em uma única variável, mantendo a sequência de inserção ao longo de sua existência.
+
+Uma característica central das listas é sua mutabilidade. Isso significa que após sua criação, você pode adicionar, remover, modificar ou reorganizar elementos conforme necessário. Esta flexibilidade as torna ideais para situações onde os dados mudam durante a execução do programa.
+
+A forma mais comum de criar uma lista é usando notação literal com colchetes:
+
+    cores = ["vermelho", "verde", "azul", "amarelo"]
+
+Você também pode utilizar o construtor list() para converter iteráveis em listas, como ao trabalhar com objetos range:
+
+    digitos = list(range(10))  # Resulta em [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+Compreensões de lista representam outra abordagem poderosa, permitindo gerar listas através de transformações de sequências existentes de forma concisa e legível.
+
+List indexing is zero-based, as it is with strings. O primeiro elemento recebe índice 0, o segundo índice 1, e assim sucessivamente. Você pode acessar elementos individuais usando colchetes. Índices negativos contam a partir do final: -1 retorna o último elemento, -2 o penúltimo, e assim por diante.
+
+A operação de slice permite extrair subsequências especificando um intervalo: lista[início:fim] retorna elementos do índice início até fim (excludente). O terceiro parâmetro opcional define o passo — lista[::2] retorna elementos alternados.
+
+Uma das vantagens principais das listas é a capacidade de modificação in-place. Você pode substituir elementos específicos por atribuição direta. A atribuição de slice permite substituir múltiplos elementos simultaneamente ou inserir novos valores sem remover existentes.
+
+As listas fornecem vários métodos para modificação:
+- .append(obj): appends an object to the end of a list as a single item
+- .extend(iterable): adiciona múltiplos elementos individuais de um iterável
+- .insert(index, obj): insere um elemento em posição específica
+- .remove(obj): remove a primeira ocorrência de um objeto
+- .pop([index]): remove e retorna um elemento pelo índice, padrão é o último
+- .sort(): ordena a lista in-place
+- .reverse(): inverte a ordem dos elementos in-place
+
+Para busca dentro de uma lista, o operador in verifica pertencimento, .index() retorna a posição da primeira ocorrência e .count() conta quantas vezes um elemento aparece.
+
+Enquanto listas são mutáveis, tuples are immutable, meaning that you can't change a tuple once it has been created. Se tentar modificar uma tupla, receberá um TypeError. Tuplas funcionam melhor para dados heterogêneos com significado posicional (como coordenadas ou valores de retorno de funções), enquanto listas servem para coleções homogêneas que mudam. A imutabilidade das tuplas também as torna hasháveis, permitindo seu uso como chaves de dicionário — algo impossível com listas.
+
+Listas em Python não têm tamanho fixo: crescem e encolhem dinamicamente conforme elementos são adicionados ou removidos. O custo de append() é amortizado O(1), mas inserções no início (insert(0, x)) são O(n) pois todos os elementos precisam ser deslocados. Para operações frequentes nas duas extremidades, collections.deque é mais eficiente.

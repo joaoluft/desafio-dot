@@ -1,0 +1,23 @@
+Object-oriented programming represents a fundamental paradigm for structuring code by bundling data and behaviors into discrete units called objects. This approach mirrors how we conceptualize real-world entities, making programs more intuitive and maintainable.
+
+A class serves as a blueprint — a template defining what data and behaviors objects should possess. An instance, by contrast, is a concrete realization of that blueprint containing actual values. Consider a form: the class is the empty form itself, while an instance is a completed form with specific information filled in.
+
+The distinction matters practically. You can create many instances from a single class definition, each with unique attribute values. This separation between template and implementation prevents code duplication and enhances organization.
+
+When defining a class, the __init__() method establishes initial state. This special method receives a parameter called self, which Python automatically passes when creating new instances. The self parameter allows each instance to maintain its own distinct attributes.
+
+Instance attributes created within __init__() belong specifically to individual objects. If you define a Dog class with self.name and self.age attributes, each dog instance can have different names and ages. This contrasts with class attributes, which remain constant across all instances — useful for properties that should be identical for every object of that type.
+
+Instance methods enable objects to perform actions using their data. These methods also take self as their first parameter, allowing them to access instance attributes. Beyond basic methods, special dunder methods like __str__() customize how objects behave. Implementing __str__() provides a readable string representation when printing objects.
+
+This bundling of data and methods within a class exemplifies encapsulation — one of OOP's foundational pillars. It maintains data integrity by controlling how attributes are accessed and modified. Property decorators (@property) allow you to define getters and setters that look like regular attribute access, enabling validation without exposing implementation details.
+
+Inheritance enables code reuse by allowing classes to inherit attributes and methods from parent classes. Child classes can override inherited methods with specialized implementations or extend them using super(), which calls the parent class's version while adding custom logic.
+
+A general parent class might define basic behaviors, while specialized child classes override methods with type-specific implementations. This hierarchy reduces duplication while enabling flexibility. Multiple inheritance is supported in Python, though it requires understanding of the Method Resolution Order (MRO) to avoid ambiguity.
+
+Class methods (decorated with @classmethod) receive the class itself as the first argument instead of an instance. They are commonly used as alternative constructors. Static methods (decorated with @staticmethod) receive neither the class nor the instance — they are essentially regular functions namespaced within the class.
+
+Python supports special methods (dunder methods) for operator overloading: __add__ for +, __len__ for len(), __eq__ for ==, __lt__ for <, __iter__ and __next__ for iteration. Implementing these makes your classes integrate naturally with Python's built-in functions and operators.
+
+Rather than using primitive data structures like lists to represent entities — which leads to confusion and errors — classes provide a cohesive, type-safe approach. Each class clearly defines what data belongs together and what operations those data support, resulting in more maintainable, scalable applications.
